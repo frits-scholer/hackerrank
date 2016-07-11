@@ -15,9 +15,7 @@ using namespace std;
 long nr_of_inversions(const vector<long>& v) {
   long S=0;
   for (size_t i=1;i<v.size();i++) {
-    for (size_t j=0;j<i;j++) {
-      if (v[i]<v[j]) S++;
-    }
+    S+=count_if(begin(v),begin(v)+i,[&](const long& vv){return v[i]<vv;});
   }
   return S;
 }
