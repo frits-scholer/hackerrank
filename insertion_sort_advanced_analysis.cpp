@@ -12,12 +12,51 @@ count the number of inversions
 #include <algorithm>
 using namespace std;
 
-long nr_of_inversions(const vector<long>& v) {
-  long S=0;
-  for (size_t i=1;i<v.size();i++) {
-    S+=count_if(begin(v),begin(v)+i,[&](const long& vv){return v[i]<vv;});
+long mrge(vector<long>& v, size_t l, size_t m, size_t r)
+{
+  size_t len=r-l+1;
+  size_t count = 0;
+  vector<long> c(len);
+  size_t i=0;
+  size_t j=l;
+  size_t k=m;
+  while(j<m && k<=r) {
+    if(v[j]<=v[k]) {
+      c[i++]=v[j++];
+    }
+    else {
+      c[i++]=v[k++];
+      count+=m-j;
+    }
   }
-  return S;
+ 
+  while(j<m) {
+    c[i++]=v[j++];
+  }
+  while(k<=r) {
+    c[i++]=v[k++];
+  }
+  i=0;
+  while(l<=r) {
+    v[l++]=c[i++];
+  }
+  return count;
+}
+
+long mergesort(vector<long>& v,size_t l,size_t r)
+{
+  long count=0;
+  size_t m=(l+r)/2;
+  if(l<r) {
+      count+=mergesort(v,l,m);
+      count+=mergesort(v,m+1,r);
+      count+=mrge(v,l,m+1,r);
+  }
+  return count;
+}
+
+long nr_of_inversions(vector<long>& v, size_t n) {
+  return mergesort(v,0,n);
 }
 
 int main() {
@@ -30,7 +69,7 @@ clock_t tm=clock();
     cin >> N;
     vector<long> a(N);
     for (size_t j=0;j<N;j++) cin >> a[j];
-    long S = nr_of_inversions(a);
+    long S = nr_of_inversions(a, N-1);
     cout << S << endl;
   }
 tm = clock()-tm;
