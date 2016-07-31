@@ -17,31 +17,20 @@ int main() {
     for (auto j=1;j<=n;j++) cin >> A[j];
     long long acc[n+1];
     subarray maxSj = make_pair(1L,1L);
-    long long Simaxj=A[1]%m;
-    long long sum = A[1]%m;
-    long imax=1;
+    long long Smax = A[1]%m;
     acc[0]=A[0];
     acc[1]=A[1]%m;
     for (long j=2;j<=n;j++) {
       A[j] %= m;
       acc[j]=(acc[j-1]+A[j])%m;//beware of negatives
-      if (Simaxj + A[j] >= m) {
-	Simaxj = 0;
-	imax = j;
+      for (long k=1;k<=j;k++) {
+	if (S(k,j,acc)>Smax) {
+	  maxSj=make_pair(k,j);
+	  Smax = S(k,j,acc);
+	}
       }
-      if ((A[j] + Simaxj)%m > sum) {
-	maxSj = make_pair(imax, j);
-	sum = S(imax,j,acc); cout << "* ";
-      }
-      Simaxj += A[j]; Simaxj %= m;
-      cout << imax << ", " << j << " Simaxj: " << Simaxj << " sum: " << sum << endl;
     }
     cout << maxSj.first << ", " <<  maxSj.second << " => ";
-    cout << S(maxSj.first, maxSj.second, acc) << endl;
-    /*
-    for (long j= 1; j<=50; j++) 
-      for (long i= j;i<=50; i++) 
-	cout << j << "," << i << ":" << S(j,i,acc)%m << endl;
-    */
+    cout << Smax << endl;
   }
 }
