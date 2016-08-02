@@ -1,38 +1,37 @@
 #include <iostream>
 #include <utility>
+#include <algorithm>
+#include <set>
 using namespace std;
-
-typedef pair<long, long> subarray;
 
 int main() {
   long q;
   cin >> q;
-  for (long i=0;i<q;i++) {
+  for (long iq=0;iq<q;iq++) {
     long n;//2<=n<=10^5
     long long m;//1<=m<=10^14
     cin >> n >> m;
     long long A[n+1];
     A[0]=0;
+    set<long long> accs;
     for (auto j=1;j<=n;j++) cin >> A[j];
     long long acc[n+1];
-    subarray maxSj = make_pair(1L,1L);
-    long long Siminj=A[1]%m;
-    long long Smax = A[1]%m;
-    long imax=1;
-    acc[0]=A[0];
-    acc[1]=A[1]%m;
+    A[1] %= m;
+    long long Smax = A[1];
+    acc[0]=0;
+    acc[1]=A[1];
+    long long maxSij;
+    accs.insert(m-acc[1]);
     for (long j=2;j<=n;j++) {
       A[j] %= m;
       acc[j]=(acc[j-1]+A[j])%m;
-      //assume Siminj is determined
-      if (acc[j-1] < Siminj) {//determine imax and Siminj
-	Siminj = acc[j-1];
-	imax = j;
-      }
-      if ((acc[j]-Siminj+m)%m > Smax) {
-	maxSj = make_pair(imax,j);
-	Smax = (acc[j]-Siminj+m)%m;
-      }
+      //find delta the m-min(acc[i-1]) such that acc[i-1] > acc[j] 1<=i<j
+      long long delta = 0;
+      auto it = accs.lower_bound(m-acc[j]);
+      if (it != accs.begin()) delta = *--it;
+      maxSij = max((acc[j]+delta)%m, acc[j]);
+      accs.insert(m-acc[j]);
+      if (maxSij>Smax) Smax = maxSij;
     }
     cout << Smax << endl;
   }
