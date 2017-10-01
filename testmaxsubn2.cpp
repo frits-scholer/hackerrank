@@ -22,7 +22,7 @@ int main() {
     acc[1]=A[1]%m;
     for (long j=2;j<=n;j++) {
       A[j] %= m;
-      acc[j]=(acc[j-1]+A[j])%m;//beware of negatives
+      acc[j]=(acc[j-1]+A[j])%m;
       for (long k=1;k<=j;k++) {
 	if (S(k,j,acc)>Smax) {
 	  maxSj=make_pair(k,j);

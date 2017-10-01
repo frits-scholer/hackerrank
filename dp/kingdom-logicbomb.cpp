@@ -1,9 +1,3 @@
-/* *******************************
-    -----------------------------
-   | copyrights with l0gic_b0mb  |
-    -----------------------------
-   ******************************* */
-
 #include <iostream>
 #include <iterator>
 #include <vector>
@@ -62,11 +56,12 @@ llint solve_for(int root,int color,int streak)
     for(int i=0;i<graph[root].size();i++)
     {
         int node=graph[root][i];
-        if(node!=parent[root])
+        if(node!=parent[root])//there is 1 parent
         {
             valid=0;
             valid+=solve_for(node,!color,1);
-            invalid=(invalid*solve_for(node,!color,1))%MOD;
+            invalid=(invalid*dp[node][!color][1])%MOD;
+	    //            invalid=(invalid*solve_for(node,!color,1))%MOD;
             valid+=solve_for(node,color,2);
             ans=(ans*valid)%MOD;
         }
