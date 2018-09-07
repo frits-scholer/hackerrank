@@ -28,7 +28,7 @@ class Equilateral : public Isosceles{
 
 
 int main(){
-  
+  //simple inheritance  
     Equilateral eqr;
     eqr.equilateral();
     eqr.isosceles();
