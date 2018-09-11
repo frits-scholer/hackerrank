@@ -26,9 +26,11 @@ public:
   friend ostream& operator<<(ostream& out, Box& B);
   
 };
-  ostream& operator<<(ostream& out, Box& B) {
-    out << B.getLength() << ' ' << B.getBreadth() << ' ' << B.getHeight(); return out;
-  }
+
+ostream& operator<<(ostream& out, Box& B) {
+  out << B.getLength() << ' ' << B.getBreadth() << ' ' << B.getHeight(); return out;
+}
+
 void check2()
 {
 	int n;
