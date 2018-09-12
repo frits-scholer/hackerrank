@@ -34,13 +34,13 @@ int main() {
 		long long A, B;
 		cin >> A >> B;
 		try{
-		  Server::compute(A, B);
-		}
-		catch (const invalid_argument& ia) {
-		  cout << "Exception: " << ia.what() << endl;
+		  cout << Server::compute(A, B) << endl;
 		}
 		catch (const bad_alloc& ba) {
 		  cout << "Not enough memory" << endl;
+		}
+		catch (const exception& ia) {
+		  cout << "Exception: " << ia.what() << endl;
 		}
 		catch (...) {
 		  cout << "Other Exception" << endl;
