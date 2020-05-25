@@ -8,8 +8,10 @@ vector<string> split_string(string);
 
 int main()
 {
+  ifstream fin("LeftRotation.in");
+
     string nd_temp;
-    getline(cin, nd_temp);
+    getline(fin, nd_temp);
 
     vector<string> nd = split_string(nd_temp);
 
@@ -18,7 +20,7 @@ int main()
     int d = stoi(nd[1]);
 
     string a_temp_temp;
-    getline(cin, a_temp_temp);
+    getline(fin, a_temp_temp);
 
     vector<string> a_temp = split_string(a_temp_temp);
 
